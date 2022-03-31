@@ -22,7 +22,7 @@ URL = 'https://github.com/M-Davinci/dt_notify_to_people'
 EMAIL = '1484423781@qq.com'
 AUTHOR = 'MrChen'
 REQUIRES_PYTHON = '>=3.6.13'
-VERSION = '1.0.2'
+VERSION = '1.0.4'
 
 # What packages are required for this module to be executed?
 REQUIRED = [

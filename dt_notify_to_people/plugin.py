@@ -18,14 +18,14 @@ from django.conf import settings
 
 
 class DingTalkNotifyPlugin(CorePluginMixin, notify.NotificationPlugin):
-    title = "Ding Talk Notify To People"
+    title = "钉钉群告警通知"
     slug = "dtnotifytopeople"
-    description = "Post notifications to Dingtalk @ people."
+    description = "钉钉群告警通知，可以通知到具体的人员。"
     conf_key = "dtnotifytopeople"
     required_field = "webhook"
-    author = "chenwenming"
+    author = "Mo"
     author_url = "https://github.com/M-Davinci/dt_notify_to_people"
-    version = "1.0.0"
+    version = "1.0.4"
     resource_links = [
         ("Report Issue", "https://github.com/M-Davinci/dt_notify_to_people/issues"),
         ("View Source", "https://github.com/M-Davinci/dt_notify_to_people"),
@@ -52,27 +52,27 @@ class DingTalkNotifyPlugin(CorePluginMixin, notify.NotificationPlugin):
                 "type": "textarea",
                 "placeholder": "https://oapi.dingtalk.com/robot/send?access_token=**********",
                 "required": True,
-                "help": "Your custom DingTalk webhook (one per line).",
+                "help": "添加告警群 (一行一个)。",
                 "default": self.set_default(project, "webhook", "DINGTALK_WEBHOOK"),
             },
             {
                 "name": "custom_keyword",
-                "label": "Custom Keyword",
+                "label": "告警标题",
                 "type": "string",
-                "placeholder": "e.g. [Sentry] Error title",
+                "placeholder": "e.g. [Sentry告警] 标题",
                 "required": False,
-                "help": "Optional - custom keyword",
+                "help": "填写告警标题，需要包含钉钉群里设置的关键字，否则接受不到告警信息。",
                 "default": self.set_default(
                     project, "custom_keyword", "DINGTALK_CUSTOM_KEYWORD"
                 ),
             },
             {
                 "name": "phones",
-                "label": "Notify peoples.",
+                "label": "通知人员",
                 "type": "string",
                 "placeholder": "e.g. 18267885654,18267885654",
                 "required": False,
-                "help": "Optional - people phones",
+                "help": "填写通知的具体人员（使用逗号隔开）。",
                 "default": self.set_default(
                     project, "phones", "DINGTALK_PHONES"
                 ),
@@ -110,7 +110,7 @@ class DingTalkNotifyPlugin(CorePluginMixin, notify.NotificationPlugin):
         phones = self.get_option("phones", project)
 
         issue_link = group.get_absolute_url(params={"referrer": "dingtalknotify"})
-        issue_link = issue_link.replace('82', '88')
+        issue_link = issue_link.replace('https', 'http')
 
         payload = f"## {custom_keyword}\n\n" if custom_keyword else ""
         payload = f"{payload} > 项目名称: {project.name} \n\n"
